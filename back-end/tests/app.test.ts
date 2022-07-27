@@ -87,20 +87,13 @@ describe("/GET recommendations/:id", ()=> {
     it("not possible to get recommendation that does not exist, 404",async () => {
         const response = await agent.get("/recommendations/0")
         expect(response.statusCode).toEqual(404);
-        const recommendationCreated = await prisma.recommendation.findMany({
-            where: {id: 0}
-        });
-        expect(recommendationCreated.length).toEqual(0);
     });
 
     it("is possible to get a recommendation by its id, 200",async () => {
         const recommendations = await scenarioFactory.fiveRecommendations();
         const response = await agent.get(`/recommendations/${recommendations[3].id}`);
         expect(response.statusCode).toEqual(200);
-        const recommendationCreated = await prisma.recommendation.findMany({
-            where: {id: recommendations[3].id}
-        });
-        expect(recommendationCreated.length).toEqual(1);
+        expect(response.body.id).toEqual(recommendations[3].id);
     });
 });
 
@@ -196,5 +189,13 @@ describe("/POST recommendations/top/:amount", ()=> {
         await scenarioFactory.fiveRecommendationsTwoUpvotedOneDownvoted();
         const response = await agent.get(`/recommendations/top/`);
         expect(response.statusCode).toEqual(500);
+    });
+});
+
+describe("/GET recommendations/random", ()=> {
+    it("there must be a random recommendation, 200",async () => {
+        await scenarioFactory.fiveRecommendationsTwoUpvotedOneDownvoted();
+        const response = await agent.get("/recommendations/random");
+        expect(response.statusCode).toEqual(200);
     });
 });
