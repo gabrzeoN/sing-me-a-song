@@ -16,18 +16,15 @@ async function insert(createRecommendationData: CreateRecommendationData) {
 
 async function upvote(id: number) {
   await getByIdOrFail(id);
-
   await recommendationRepository.updateScore(id, "increment");
 }
 
 async function downvote(id: number) {
   await getByIdOrFail(id);
-
   const updatedRecommendation = await recommendationRepository.updateScore(
     id,
     "decrement"
   );
-
   if (updatedRecommendation.score < -5) {
     await recommendationRepository.remove(id);
   }
