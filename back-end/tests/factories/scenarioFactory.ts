@@ -1,6 +1,6 @@
-import { prisma } from "./../../src/database.js";
+import { prisma } from "../../src/database.js";
 import * as recommendationFactory from "./recommendationFactory.js"
-import { agent } from "../app.test.js";
+import { agent } from "../integrations/app.test.js";
 
 export async function deleteAllData() {
     await prisma.$transaction([
@@ -8,12 +8,19 @@ export async function deleteAllData() {
     ]);
 }
 
+export async function createRecommendation() {
+    const recommendation = await prisma.recommendation.create({
+        data: recommendationFactory.recommendationInput()
+    });
+    return recommendation;
+}
+
 export async function fiveRecommendations() {
-    const recommendation1 = await recommendationFactory.createRecommendation();
-    const recommendation2 = await recommendationFactory.createRecommendation();
-    const recommendation3 = await recommendationFactory.createRecommendation();
-    const recommendation4 = await recommendationFactory.createRecommendation();
-    const recommendation5 = await recommendationFactory.createRecommendation();
+    const recommendation1 = await createRecommendation();
+    const recommendation2 = await createRecommendation();
+    const recommendation3 = await createRecommendation();
+    const recommendation4 = await createRecommendation();
+    const recommendation5 = await createRecommendation();
     return [
         recommendation1,
         recommendation2,

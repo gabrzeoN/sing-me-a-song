@@ -15,7 +15,6 @@ interface FindAllWhere {
 
 function findAll(findAllWhere?: FindAllWhere) {
   const filter = getFindAllFilter(findAllWhere);
-
   return prisma.recommendation.findMany({
     where: filter,
     orderBy: { id: "desc" },
@@ -34,9 +33,7 @@ function getFindAllFilter(
   findAllWhere?: FindAllWhere
 ): Prisma.RecommendationWhereInput {
   if (!findAllWhere) return {};
-
   const { score, scoreFilter } = findAllWhere;
-
   return {
     score: { [scoreFilter]: score },
   };

@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import supertest from "supertest";
-import app from "../src/app.js";
-import { prisma } from "./../src/database.js";
-import * as scenarioFactory from "./factories/scenarioFactory.js"
-import * as recommendationFactory from "./factories/recommendationFactory.js"
+import app from "../../src/app.js";
+import { prisma } from "../../src/database.js";
+import * as scenarioFactory from "../factories/scenarioFactory.js"
+import * as recommendationFactory from "../factories/recommendationFactory.js"
 
 export const agent = supertest(app);
 
