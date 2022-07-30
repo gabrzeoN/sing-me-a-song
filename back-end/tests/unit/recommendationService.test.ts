@@ -27,7 +27,7 @@ describe("recommendationService test suite", () => {
     });
 
     it("should upvote a recommendation", async () => {
-        const recommendation = recommendationFactory.recommendationInput();
+        const recommendation = recommendationFactory.recommendationData();
         jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any => recommendation);
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any => null);
         await recommendationService.upvote(recommendation.id);
@@ -35,7 +35,7 @@ describe("recommendationService test suite", () => {
     });
     
     it("should not upvote a recommendation that does not exist", () => {
-        const recommendation = recommendationFactory.recommendationInput();
+        const recommendation = recommendationFactory.recommendationData();
         jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any => null);
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any => null);
         const promise = recommendationService.upvote(recommendation.id);
@@ -43,7 +43,7 @@ describe("recommendationService test suite", () => {
     });
     
     it("should downvote a recommendation, but not remove it", async () => {
-        const recommendation = recommendationFactory.recommendationInput();
+        const recommendation = recommendationFactory.recommendationData();
         jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any => recommendation);
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any => { 
             return {...recommendation, score: 0}
@@ -67,7 +67,7 @@ describe("recommendationService test suite", () => {
     });
 
     it("should not downvote a recommendation that does not exist", () => {
-        const recommendation = recommendationFactory.recommendationInput();
+        const recommendation = recommendationFactory.recommendationData();
         jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any => null);
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any => null);
         const promise = recommendationService.downvote(recommendation.id);
